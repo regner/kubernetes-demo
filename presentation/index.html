@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Kubernetes Demo</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/league.css">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<!-- Start of presentation -->
+				<section>
+					<h1>Kubernetes Demo</h1>
+					<h3>A container orchistration system</h3>
+					<p>
+						<small>This presentaiton and demo was created by <a href="https://twitter.com/regnerba">@regnerba</a></small>
+					</p>
+				</section>
+				<section>
+					<h2>Core Kube Concepts</h2>
+				</section>
+				<section>
+					<h3>Master Nodes</h3>
+					<p>
+						The Master Node runs the control plane for Kubernetes. This includes the API, scheduler, and controller manager. Depending on cluster size and use it is common to have multiple masters to provide high availability.
+					</p>
+				</section>
+				<section>
+					<h3>Nodes</h3>
+					<p>
+						These are what your workload is going to be running on. They can be baremetal or VMs. Each Node has the services required to run Pods and is managed by the master. These services include docker, kubelet and network proxy.
+					</p>
+				</section>
+				<section>
+					<h3>Pods</h3>
+					<p>
+						A pod is a group of one or more containers, the shared storage for those containers, and options about how to run the containers. Pods are always co-located and co-schedules, and run in a shared context.
+					</p>
+					<p>
+						Pods are mortal. They are born and they die, they are never resurrected.
+					</p>
+				</section>
+				<section>
+					<h3>Replica Sets</h3>
+					<p>
+						A Replica Set ensures that specified pods have certain number of replicas running at any given time.
+					</p>
+				</section>
+				<section>
+					<h3>Deployments</h3>
+					<p>
+						Provides a declarative update for Pods and Replicat Sets. You describe the state you want and Deployments will ensure the actual state in the cluster is changed to the desired state at a controlled rate.
+					</p>
+				</section>
+				<section>
+					<h3>Services</h3>
+					<p>
+						Services are an abstraction which defines a logical set of Pods and a policy by which to access them. This is important bceause Pods are meant to be killed and moved around the cluster so while Pods are given IP addresses they cannot be relied upon to be stable.
+					</p>
+				</section>
+				<section>
+					<h3>kubectl</h3>
+					<p>
+						A CLI for interacting with the Kube master and administorating the cluster.
+					</p>
+				</section>
+				<section>
+					<img class="stretch" data-src="images/architecture.png">
+				</section>
+
+				<!-- Return to demo and see first steps in action -->
+				<section>
+					<p>Return to demo...</p>
+				</section>
+
+				<!-- A brief introduction into how a deployment config works -->
+				<section>
+					<h2>Deployment Configs</h2>
+				</section>
+				<section>
+					<pre><code class="hljs" data-trim contenteditable>
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: app-1-deployment
+					</code></pre>
+				</section>
+				<section>
+					<pre><code class="hljs" data-trim contenteditable>
+spec:
+  minReadySeconds: 10
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-1
+					</code></pre>
+				</section>
+				<section>
+					<pre><code class="hljs" data-trim contenteditable>
+    spec:
+      containers:
+        - name: app-1
+          image: regner/kubernetes-demo:v1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+					</code></pre>
+				</section>
+				<section>
+					<pre><code class="hljs" data-trim contenteditable>
+          livenessProbe:
+            httpGet:
+              path: /liveness
+              port: 8000
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 8000
+            timeoutSeconds: 1
+					</code></pre>
+				</section>
+
+				<!-- Return to the demo to see a full config file -->
+				<section>
+					<p>Return to demo...</p>
+				</section>
+
+
+
+
+<!--     - kind
+    - metadata
+    - replicas
+    - labels
+    - containers
+    - image pull policy
+    - ports
+    - resources
+    - health checks
+      - Readiness probe that checks an endpoint configured elsewhere to enable downtime
+    - rolling updates -->
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+				history: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>

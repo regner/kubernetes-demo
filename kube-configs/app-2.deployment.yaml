@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: app-2-deployment
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: app-2
+    spec:
+      containers:
+        - name: app-2
+          image: nginx:1.11
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80

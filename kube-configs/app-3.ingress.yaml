@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app-3-ingress
+  annotations:
+    traefik.frontend.rule.type: pathprefixstrip
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /app-3
+            backend:
+              serviceName: app-3-service
+              servicePort: http

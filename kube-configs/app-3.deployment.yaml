@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: app-3-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-3
+    spec:
+      containers:
+        - name: app-3
+          image: nginx:1.11
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: SECRET_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-3-secret
+                  key: username
+            - name: SECRET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-3-secret
+                  key: password
+          volumeMounts:
+            - mountPath: /usr/share/nginx/html
+              name: index-html
+      volumes:
+        - name: index-html
+          configMap:
+            name: app-3-configmap
+            items:
+              - key: nginx-index-html
+                path: index.html
