@@ -6,11 +6,11 @@ test:
   override:
     - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
     
-    - docker build -t regner/kubernetes-demo:v1 app-v1/
-    - docker push regner/kubernetes-demo:v1
+    - docker build -t regner/kubernetes-demo-app-1:v1 app-1-v1/
+    - docker push regner/kubernetes-demo-app-1:v1
 
-    - docker build -t regner/kubernetes-demo:v2 app-v2/
-    - docker push regner/kubernetes-demo:v2
+    - docker build -t regner/kubernetes-demo-app-1:v2 app-1-v2/
+    - docker push regner/kubernetes-demo-app-1:v2
 
-    - docker build -t regner/kubernetes-demo:v3 app-v3/
-    - docker push regner/kubernetes-demo:v3
+    - docker build -t regner/kubernetes-demo-app-4:v1 app-4-v1/
+    - docker push regner/kubernetes-demo-app-4:v1

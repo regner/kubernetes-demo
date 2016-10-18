@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: app-4-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /app-4
+            backend:
+              serviceName: app-4-service
+              servicePort: http
