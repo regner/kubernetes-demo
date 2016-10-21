@@ -9,16 +9,21 @@ app = Flask(__name__)
 
 READY_TIME = time() + 5  # Delay readiness by X seconds
 
-ENV = {}
 
-for key, value in os.environ.items():
-    if key.startswith("KUBEDEMO_"):
-        ENV[key] = value
+def get_env_vars():
+    env_vars = {}
+
+    for key, value in os.environ.items():
+        if key.startswith("KUBEDEMO_"):
+            env_vars[key] = value
+
+    return env_vars
 
 
 @app.route("/app-4")
 def root():
-    return "Hello World! This is version 1 of the env listing demo. Here are all environment variables that start with \"KUBEDEMO_\": {}.".format(ENV)
+    env_vars = get_env_vars()
+    return "Hello World! This is version 1 of the env listing demo. Here are all environment variables that start with \"KUBEDEMO_\": {}.".format(env_vars)
 
 
 if __name__ == '__main__':
