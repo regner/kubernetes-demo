@@ -16,11 +16,10 @@ spec:
     spec:
       containers:
         - name: app-1
-          image: regner/kubernetes-demo-app-1:v1
+          image: regner/kubernetes-demo-app-1:badupdate2
           imagePullPolicy: Always
           ports:
-            - name: http
-              containerPort: 8000
+            - containerPort: 8000
           livenessProbe:
             httpGet:
               path: /liveness

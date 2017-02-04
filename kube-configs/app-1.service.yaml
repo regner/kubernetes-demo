@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: app-1-service
 spec:
-  type: NodePort
   ports:
     - name: http
       port: 8000

@@ -13,6 +13,8 @@ spec:
         - name: app-4
           image: regner/kubernetes-demo-app-4:v1
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
           env:
             - name: KUBEDEMO_ONE
               valueFrom:
@@ -24,3 +26,13 @@ spec:
                 configMapKeyRef:
                   name: app-4-configmap
                   key: hello
+            - name: KUBEDEMO_SECRET_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: app-4-secret
+                  key: username
+            - name: KUBEDEMO_SECRET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: app-4-secret
+                  key: password
